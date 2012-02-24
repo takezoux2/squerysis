@@ -47,7 +47,7 @@
         <dependency>
             <groupId>org.scala-tools.testing</groupId>
             <artifactId>specs_${scala.version}</artifactId>
-            <version>1.6.8</version>
+            <version>1.6.9</version>
             <scope>test</scope>
         </dependency>
         <dependency>

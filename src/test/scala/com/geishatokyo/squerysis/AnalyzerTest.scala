@@ -4,9 +4,9 @@ import collector.impl.SquerylSQLCollector
 import org.junit.runner.RunWith
 import org.specs._
 import org.specs.runner.{ JUnitSuiteRunner, JUnit }
-import org.squeryl.sharding.builder.SimpleShardingSessionBuilder
+import org.squeryl.sharding.builder.SimpleShardedSessionBuilder
 import verify.impl.SquerylIndexVerifier
-import org.squeryl.sharding.{ShardingSessionFactory, ShardingSession}
+import org.squeryl.sharding.{ShardedSessionFactory, ShardedSession}
 import org.squeryl.PrimitiveTypeMode
 import org.squeryl.PrimitiveTypeMode._
 import org.apache.log4j.BasicConfigurator
@@ -26,13 +26,13 @@ class AnalyzerTest extends Specification with JUnit{
     BasicConfigurator.configure
     val prop = new Properties()
     prop.load(getClass.getClassLoader.getResourceAsStream("db.properties"))
-    val builder = new SimpleShardingSessionBuilder()
+    val builder = new SimpleShardedSessionBuilder()
     builder.addWriter("jdbc:mysql://localhost/" + prop.getProperty("dbname"),
       prop.getProperty("username"),prop.getProperty("password"))
     builder.statisticsListener = Some(collector.getStatisticsListener _)
     builder.name = ShardName
 
-    ShardingSessionFactory.addShard(builder.create())
+    ShardedSession.addFactory(builder.create())
 
     PrimitiveTypeMode.write(ShardName){
       Tables.drop
